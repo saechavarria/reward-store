@@ -1,32 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { User } from "./services/interfaces";
+import AppContext from "./AppContext";
+
+import NavBar from "./components/NavBar";
+
+import Body from "./components/Body";
+
+import { getUser } from "./services/";
 
 function App() {
+  const [user, setUser] = useState<User>(null);
 
-  const a = 1
-  const b = 3
+  useEffect(() => {
+    async function init() {
+      try {
+        const userService = await getUser();
+        setUser(userService);
+      } catch (error) {
+        console.log("ERROR : " + error);
+      }
+    }
+    init();
+  }, []);
 
-  if(a >= b){
-    console.log('holi')
-  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AppContext.Provider value={user}>
+        <NavBar />
+        <Body />
+      </AppContext.Provider>
+    </>
   );
 }
 
