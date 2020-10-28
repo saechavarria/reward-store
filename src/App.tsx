@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User } from "./services/interfaces";
+import { IUser } from "./services/interfaces";
 import AppContext from "./AppContext";
 
 import NavBar from "./components/NavBar";
@@ -9,7 +9,7 @@ import Body from "./components/Body";
 import { getUser } from "./services/";
 
 function App() {
-  const [user, setUser] = useState<User>(null);
+  const [user, setUser] = useState<IUser>(null);
 
   useEffect(() => {
     async function init() {
@@ -26,7 +26,7 @@ function App() {
   return (
     <>
       <AppContext.Provider value={user}>
-        <NavBar />
+        <NavBar/>
         <Body />
       </AppContext.Provider>
     </>

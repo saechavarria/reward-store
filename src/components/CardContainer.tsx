@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import EuroSymbolIcon from "@material-ui/icons/EuroSymbol";
 import { Button } from "@material-ui/core";
 
+import { ICardContainerProps } from '../services/interfaces';
+
 import React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -28,23 +30,24 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CardContainer = () => {
-  const classes = useStyles();
+const CardContainer = (props:ICardContainerProps) => {
 
+  const classes = useStyles();
+  
   return (
     <>
-      <Card className={classes.root}>
+      <Card className={classes.root} >
         <CardMedia
           className={classes.media}
-          image="https://picsum.photos/200/300"
+          image={props.product.img.hdUrl}
           title="imagen"
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            Categoria
+            {props.product.category}
           </Typography>
           <Typography variant="body2" color="textPrimary" component="p">
-            Producto
+            {props.product.name}
           </Typography>
           <div className={classes.redeemButton}>
           <Typography variant="body2" color="textPrimary" component="p">
@@ -56,7 +59,7 @@ const CardContainer = () => {
               color="secondary"
               endIcon={<EuroSymbolIcon />}
             >
-             1.200
+             {props.product.cost}
             </Button>
           </div>
         </CardContent>

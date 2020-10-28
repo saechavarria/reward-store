@@ -1,7 +1,7 @@
 import {createContext} from 'react'
-import { User } from './services/interfaces';
+import { IUser } from './services/interfaces';
 
-const AppContext = createContext<User>(null)
+const AppContext = createContext<IUser>(null)
 
 export default AppContext
 

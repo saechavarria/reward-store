@@ -1,7 +1,7 @@
-import { User } from "./interfaces";
-import { Product } from "./interfaces";
+import { IUser } from "./interfaces";
+import { IProducts } from "./interfaces";
 
-export function getUser(): Promise<User> {
+export function getUser(): Promise<IUser> {
   return new Promise(async (resolve, reject) => {
     try {
       const endpoint = "https://coding-challenge-api.aerolab.co/user/me";
@@ -17,7 +17,7 @@ export function getUser(): Promise<User> {
       const res = await fetch(endpoint, requestInit);
       const jsonRes = await res.json();
 
-      const userResolve: User = {
+      const userResolve: IUser = {
         name: jsonRes.name,
         points: jsonRes.points,
         redeemHistory: jsonRes.redeemHistory,
@@ -29,7 +29,7 @@ export function getUser(): Promise<User> {
   });
 }
 
-export function getProduct(): Promise<Product> {
+export function getProduct(): Promise<IProducts[]> {
   return new Promise(async (resolve, reject) => {
     try {
       const endpoint = "https://coding-challenge-api.aerolab.co/products";
@@ -41,17 +41,18 @@ export function getProduct(): Promise<Product> {
         },
       };
 
-      const res = await fetch(endpoint, requestInit);
-      const jsonRes = await res.json();
+      const resProducto = await fetch(endpoint, requestInit);
+      const jsonResProduct = await resProducto.json();
       
-      const productResolve: Product = {
-        category: jsonRes.category,
-        cost: jsonRes.cost,
-        img: jsonRes.img,
-        name: jsonRes.name,
-      };
-      console.log(productResolve);
-      
+      const productResolve: IProducts[] = jsonResProduct.map((prod: { _id:any; category: any; cost: any; img: any; name: any; }) => {
+        return {
+          id:prod._id,
+          category: prod.category,
+          cost: prod.cost,
+          img: prod.img,
+          name: prod.name
+        }
+      })
       resolve(productResolve);
     } catch (error) {
       reject(new Error(error));
