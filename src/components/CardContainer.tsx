@@ -3,7 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import EuroSymbolIcon from "@material-ui/icons/EuroSymbol";
+import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import { Button } from "@material-ui/core";
 
 import { ICardContainerProps } from '../services/interfaces';
@@ -57,7 +57,7 @@ const CardContainer = (props:ICardContainerProps) => {
               className={classes.btn}
               variant="contained"
               color="secondary"
-              endIcon={<EuroSymbolIcon />}
+              endIcon={<LoyaltyIcon />}
             >
              {props.product.cost}
             </Button>

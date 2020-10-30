@@ -6,9 +6,14 @@ import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Grid from "@material-ui/core/Grid";
+import Pagination from "@material-ui/lab/Pagination";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { getProduct } from "../services";
+import usePagination from "../helpers/Pagination";
+import { sortLowerPrice } from "../helpers";
+import { sortHigherPrice } from "../helpers";
+import { sortMostRecently } from "../helpers";
 
 const useStyles = makeStyles({
   container: {
@@ -24,7 +29,18 @@ const useStyles = makeStyles({
 });
 
 const Body = () => {
-  const [data, setData] = useState<IProducts[]>(null);
+  const [data, setData] = useState<IProducts[]>([]);
+  const [page, setPage] = useState(1);
+
+  const PER_PAGE = 10;
+
+  const count = Math.ceil(data.length / PER_PAGE);
+  const _DATA = usePagination(data, PER_PAGE);
+
+  const handleChangePage = (e: any, p: any) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
 
   useEffect(() => {
     async function init() {
@@ -41,7 +57,7 @@ const Body = () => {
 
   const classes = useStyles();
 
-  const [value, setValue] = React.useState(3);
+  const [value, setValue] = React.useState(1);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -57,24 +73,36 @@ const Body = () => {
           onChange={handleChange}
           aria-label="inittabs"
         >
-          <Tab label="16 of 32 products" disabled />
-          <Tab label="|" disabled />
           <Tab label="sort by:" disabled />
-          <Tab label="Most Recently" />
-          <Tab label="Lower Price" />
-          <Tab label="Highest Price" />
+          <Tab label="Most recently" onClick={() => sortMostRecently(data)} />
+          <Tab label="Lower Price" onClick={() => sortLowerPrice(data)} />
+          <Tab label="Highest Price" onClick={() => sortHigherPrice(data)} />
         </Tabs>
       </Paper>
-      <Grid container spacing={2} className={classes.container}>
+      <Grid
+        container
+        spacing={2}
+        justify="center"
+        className={classes.container}
+      >
         {!data ? (
           <h1>loading</h1>
         ) : (
-          data.map((product,i) => (
-            <Grid item lg={2}  md={4} sm={6} xs={12} key={i}>
+          _DATA.currentData().map((product, i) => (
+            <Grid item lg={2} md={4} sm={6} xs={12} key={i}>
               <CardContainer product={product} />
             </Grid>
           ))
         )}
+      </Grid>
+      <Grid container justify="center" className={classes.container}>
+        <Pagination
+          size="large"
+          count={count}
+          page={page}
+          onChange={handleChangePage}
+          color="secondary"
+        />
       </Grid>
       <Paper square>
         <Tabs
@@ -83,7 +111,7 @@ const Body = () => {
           textColor="secondary"
           aria-label=""
         >
-          <Tab label="16 of 32 products" disabled />
+          <Tab label="REWARD STORE" disabled />
         </Tabs>
       </Paper>
     </div>

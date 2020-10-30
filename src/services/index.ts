@@ -59,3 +59,4 @@ export function getProduct(): Promise<IProducts[]> {
     }
   });
 }
+

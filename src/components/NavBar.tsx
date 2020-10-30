@@ -5,6 +5,9 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import GitHubIcon from "@material-ui/icons/GitHub";
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,21 +17,28 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
     },
+    link:{
+      color:"#ffffff",
+    }
   })
 );
 
 const NavBar = () => {
   const user = useContext(AppContext);
   const classes = useStyles();
-  
+
   return (
     <div className={classes.root}>
       <AppBar position="static" color="secondary">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Rewards Store
+            <a href="https://github.com/saechavarria" className={classes.link} target="_blank">
+              <GitHubIcon/>
+            </a>
           </Typography>
-          <Typography variant="h6">{user ? user.name+' points: '+ user.points : "loading"}</Typography>
+          <Typography variant="h6">
+            {user ? user.name + " points: " + user.points : "loading"}
+          </Typography>
         </Toolbar>
       </AppBar>
     </div>
