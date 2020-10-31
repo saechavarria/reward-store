@@ -1,3 +1,5 @@
+import AppContext from "../AppContext";
+
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -6,9 +8,14 @@ import Typography from "@material-ui/core/Typography";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import { Button } from "@material-ui/core";
 
-import { ICardContainerProps } from '../services/interfaces';
 
-import React from "react";
+import { redeemProduct } from "../services/index";
+
+import { ICardContainerProps } from "../services/interfaces";
+
+import swal from "sweetalert";
+
+import React, { useContext } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,18 +32,38 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: 50,
     },
     btn: {
-      marginTop:12,
-    }
+      marginTop: 12,
+    },
   })
 );
 
-const CardContainer = (props:ICardContainerProps) => {
+const CardContainer = (props: ICardContainerProps) => {
 
   const classes = useStyles();
-  
+
+  const user = useContext(AppContext);
+
+
+  async function redeem (id:any){
+    try {
+      await redeemProduct(id);
+      swal("Good job!", "You've redeem the product successfully", "success");
+    } catch (error) {
+      swal("Oops!","Ha ocurrido un error","error");
+      console.log(error)
+    }
+  }
+
+  if (!user) {
+    return (
+      <>
+        <h1>{""}</h1>
+      </>
+    );
+  }
   return (
     <>
-      <Card className={classes.root} >
+      <Card className={classes.root}>
         <CardMedia
           className={classes.media}
           image={props.product.img.hdUrl}
@@ -50,17 +77,24 @@ const CardContainer = (props:ICardContainerProps) => {
             {props.product.name}
           </Typography>
           <div className={classes.redeemButton}>
-          <Typography variant="body2" color="textPrimary" component="p">
-            Redeem:
-          </Typography>
-            <Button
-              className={classes.btn}
-              variant="contained"
-              color="secondary"
-              endIcon={<LoyaltyIcon />}
-            >
-             {props.product.cost}
-            </Button>
+            {user.points < props.product.cost ? (
+              `You need ${props.product.cost - user.points}`
+            ) : (
+              <>
+                <Typography variant="body2" color="textPrimary" component="p">
+                  Redeem:
+                </Typography>
+                <Button
+                  onClick={() => redeem(props.product.id)}
+                  className={classes.btn}
+                  variant="contained"
+                  color="secondary"
+                  endIcon={<LoyaltyIcon />}
+                >
+                  {props.product.cost}
+                </Button>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>

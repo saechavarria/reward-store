@@ -13,10 +13,12 @@ import { getProduct } from "../services";
 import usePagination from "../helpers/Pagination";
 import { sortLowerPrice } from "../helpers";
 import { sortHigherPrice } from "../helpers";
-import { sortMostRecently } from "../helpers";
+
+
 
 const useStyles = makeStyles({
   container: {
+    marginTop: 20,
     padding: 10,
     flexGrow: 1,
   },
@@ -41,6 +43,15 @@ const Body = () => {
     setPage(p);
     _DATA.jump(p);
   };
+
+  async function sortMostRecently(){
+    try {
+      const dataCopy = await getProduct();
+      setData(dataCopy);
+    } catch (error) {
+      console.log("ERROR : " + error);
+    }
+  }
 
   useEffect(() => {
     async function init() {
@@ -74,7 +85,7 @@ const Body = () => {
           aria-label="inittabs"
         >
           <Tab label="sort by:" disabled />
-          <Tab label="Most recently" onClick={() => sortMostRecently(data)} />
+          <Tab label="Most recently" onClick={() => sortMostRecently()} />
           <Tab label="Lower Price" onClick={() => sortLowerPrice(data)} />
           <Tab label="Highest Price" onClick={() => sortHigherPrice(data)} />
         </Tabs>

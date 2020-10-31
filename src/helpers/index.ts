@@ -9,7 +9,3 @@ export function sortHigherPrice (data: any[]) {
         return b.cost-a.cost
     })
 }
-export function sortMostRecently (data: any[]) {
-    
-    console.log(data)
-}

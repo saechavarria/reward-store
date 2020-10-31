@@ -8,9 +8,10 @@ import Body from "./components/Body";
 
 import { getUser } from "./services/";
 
-function App() {
-  const [user, setUser] = useState<IUser>(null);
+const  App = () =>  {
 
+  const [user, setUser] = useState<IUser>(null);
+  
   useEffect(() => {
     async function init() {
       try {
@@ -21,7 +22,9 @@ function App() {
       }
     }
     init();
-  }, []);
+  });
+
+  
 
   return (
     <>

@@ -7,8 +7,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import GitHubIcon from "@material-ui/icons/GitHub";
 
-
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -17,9 +15,9 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
     },
-    link:{
-      color:"#ffffff",
-    }
+    link: {
+      color: "#ffffff",
+    },
   })
 );
 
@@ -32,8 +30,13 @@ const NavBar = () => {
       <AppBar position="static" color="secondary">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <a href="https://github.com/saechavarria" className={classes.link} target="_blank">
-              <GitHubIcon/>
+            <a
+              href="https://github.com/saechavarria/reward-store"
+              className={classes.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GitHubIcon />
             </a>
           </Typography>
           <Typography variant="h6">
