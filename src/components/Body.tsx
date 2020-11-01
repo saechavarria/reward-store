@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CardContainer from "./CardContainer";
 import { IProducts } from "../services/interfaces";
+import AppContext from "../AppContext";
+import Loading from "./Loading";
 
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -31,6 +33,8 @@ const useStyles = makeStyles({
 });
 
 const Body = () => {
+  const user = useContext(AppContext);
+
   const [data, setData] = useState<IProducts[]>([]);
   const [page, setPage] = useState(1);
 
@@ -44,7 +48,7 @@ const Body = () => {
     _DATA.jump(p);
   };
 
-  async function sortMostRecently(){
+  async function sortMostRecently() {
     try {
       const dataCopy = await getProduct();
       setData(dataCopy);
@@ -73,6 +77,10 @@ const Body = () => {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+
+  if (!user) {
+    return <Loading />;
+  }
 
   return (
     <div>

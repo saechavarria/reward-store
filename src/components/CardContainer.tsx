@@ -1,4 +1,5 @@
 import AppContext from "../AppContext";
+import Loading from "./Loading";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -8,14 +9,14 @@ import Typography from "@material-ui/core/Typography";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import { Button } from "@material-ui/core";
 
-
 import { redeemProduct } from "../services/index";
 
 import { ICardContainerProps } from "../services/interfaces";
 
-import swal from "sweetalert";
 
-import React, { useContext } from "react";
+import { useToasts } from "react-toast-notifications";
+
+import React, { useContext, useState } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
     redeemButton: {
       marginTop: 12,
       width: 100,
-      marginLeft: 50,
+      marginLeft: 60,
     },
     btn: {
       marginTop: 12,
@@ -39,27 +40,34 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CardContainer = (props: ICardContainerProps) => {
 
+  const { addToast } = useToasts()
+
   const classes = useStyles();
 
   const user = useContext(AppContext);
 
+  const [loadingRedeem, setLoadingRedeem] = useState(false);
 
-  async function redeem (id:any){
+  async function redeem(id: string) {
+    setLoadingRedeem(true);
     try {
       await redeemProduct(id);
-      swal("Good job!", "You've redeem the product successfully", "success");
+      addToast(`You've redeem the product ${props.product.name} successfully`, {
+        appearance: 'success',
+        autoDismiss: true,
+      })
+      setLoadingRedeem(false);
     } catch (error) {
-      swal("Oops!","Ha ocurrido un error","error");
-      console.log(error)
+      addToast("Error", {
+        appearance: 'error',
+        autoDismiss: true,
+      })
+      console.log(error);
     }
   }
 
-  if (!user) {
-    return (
-      <>
-        <h1>{""}</h1>
-      </>
-    );
+  if (loadingRedeem) {
+    return <Loading />;
   }
   return (
     <>
@@ -81,9 +89,6 @@ const CardContainer = (props: ICardContainerProps) => {
               `You need ${props.product.cost - user.points}`
             ) : (
               <>
-                <Typography variant="body2" color="textPrimary" component="p">
-                  Redeem:
-                </Typography>
                 <Button
                   onClick={() => redeem(props.product.id)}
                   className={classes.btn}

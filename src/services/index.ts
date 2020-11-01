@@ -43,16 +43,18 @@ export function getProduct(): Promise<IProducts[]> {
 
       const resProducto = await fetch(endpoint, requestInit);
       const jsonResProduct = await resProducto.json();
-      
-      const productResolve: IProducts[] = jsonResProduct.map((prod: { _id:any; category: any; cost: any; img: any; name: any; }) => {
-        return {
-          id:prod._id,
-          category: prod.category,
-          cost: prod.cost,
-          img: prod.img,
-          name: prod.name
+
+      const productResolve: IProducts[] = jsonResProduct.map(
+        (prod: { _id: any; category: any; cost: any; img: any; name: any }) => {
+          return {
+            id: prod._id,
+            category: prod.category,
+            cost: prod.cost,
+            img: prod.img,
+            name: prod.name,
+          };
         }
-      })
+      );
       resolve(productResolve);
     } catch (error) {
       reject(new Error(error));
@@ -60,29 +62,34 @@ export function getProduct(): Promise<IProducts[]> {
   });
 }
 
-export function redeemProduct(id:string){
-  
-  return new Promise(async (resolve,reject) => {
-    try { 
-      const obj = {productId : id}
-      const blob = new Blob([JSON.stringify(obj, null, 2)], {type : 'application/json'});
-      const endpoint = 'https://coding-challenge-api.aerolab.co/redeem';
-      const requestInit:  RequestInit = {
-        body: blob,
-        method:'POST',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
-        },
-      }
+export function redeemProduct(id: string) {
 
-      const resRedeem = await fetch(endpoint,requestInit);
-      const jsonResRedeem = resRedeem.json()
-      
-      resolve(jsonResRedeem)
+  const obj = { productId: id };
+  const blob = new Blob([JSON.stringify(obj, null, 2)], {
+    type: "application/json",
+  });
+
+  const endpoint = "https://coding-challenge-api.aerolab.co/redeem";
+
+  const requestInit: RequestInit = {
+    body: blob,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+    },
+  };
+
+  return new Promise(async (resolve, reject) => {
+    try {
+
+      const resRedeem = await fetch(endpoint, requestInit);
+      const jsonResRedeem = resRedeem.json();
+
+      resolve(jsonResRedeem);
     } catch (error) {
-      reject(new Error(error))
+      reject(new Error(error));
     }
-  })
+  });
 }

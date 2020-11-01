@@ -40,7 +40,7 @@ const NavBar = () => {
             </a>
           </Typography>
           <Typography variant="h6">
-            {user ? user.name + " points: " + user.points : "loading"}
+            {user ? user.name.toUpperCase() + ", POINTS: " + new Intl.NumberFormat().format(user.points ): "LOADING..."}
           </Typography>
         </Toolbar>
       </AppBar>
