@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
+import RedeemHistory from "./RedeemHistory";
 import AppContext from "../AppContext";
+import AddPoints from "./AddPoints";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -22,8 +24,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const NavBar = () => {
-  const user = useContext(AppContext);
+  const {user}  = useContext(AppContext);
   const classes = useStyles();
+  
 
   return (
     <div className={classes.root}>
@@ -39,9 +42,14 @@ const NavBar = () => {
               <GitHubIcon />
             </a>
           </Typography>
+          {user &&  <RedeemHistory />}
           <Typography variant="h6">
-            {user ? user.name.toUpperCase() + ", POINTS: " + new Intl.NumberFormat().format(user.points ): "LOADING..."}
+            {user ? user.name.toUpperCase() +
+                ", POINTS: " +
+                new Intl.NumberFormat().format(user.points)
+              : "LOADING..."}
           </Typography>
+          {user && <AddPoints/> }
         </Toolbar>
       </AppBar>
     </div>

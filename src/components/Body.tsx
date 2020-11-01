@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 });
 
 const Body = () => {
-  const user = useContext(AppContext);
+  const {user} = useContext(AppContext);
 
   const [data, setData] = useState<IProducts[]>([]);
   const [page, setPage] = useState(1);
@@ -83,7 +83,7 @@ const Body = () => {
   }
 
   return (
-    <div>
+    <>
       <Paper square>
         <Tabs
           value={value}
@@ -133,7 +133,7 @@ const Body = () => {
           <Tab label="REWARD STORE" disabled />
         </Tabs>
       </Paper>
-    </div>
+    </>
   );
 };
 

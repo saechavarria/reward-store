@@ -20,7 +20,6 @@ export function getUser(): Promise<IUser> {
       const userResolve: IUser = {
         name: jsonRes.name,
         points: jsonRes.points,
-        redeemHistory: jsonRes.redeemHistory,
       };
       resolve(userResolve);
     } catch (error) {
@@ -63,7 +62,7 @@ export function getProduct(): Promise<IProducts[]> {
 }
 
 export function redeemProduct(id: string) {
-
+  
   const obj = { productId: id };
   const blob = new Blob([JSON.stringify(obj, null, 2)], {
     type: "application/json",
@@ -83,7 +82,6 @@ export function redeemProduct(id: string) {
 
   return new Promise(async (resolve, reject) => {
     try {
-
       const resRedeem = await fetch(endpoint, requestInit);
       const jsonResRedeem = resRedeem.json();
 
@@ -92,4 +90,36 @@ export function redeemProduct(id: string) {
       reject(new Error(error));
     }
   });
+}
+
+export function addPoints(points:number){
+  const obj = {amount: points}
+  const blob = new Blob([JSON.stringify(obj, null, 2)], {
+    type: "application/json",
+  });
+
+  const endpoint = "https://coding-challenge-api.aerolab.co/user/points";
+
+  const requestInit: RequestInit = {
+    body:blob,
+    method:'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+    },
+  }
+
+  return new Promise(async (resolve,reject)=> {
+    try {
+
+      const resPoints = await fetch(endpoint,requestInit);
+      const jsonResPoints = resPoints.json()
+
+      resolve(jsonResPoints);
+
+    } catch (error) {
+      reject(new Error(error));
+    }
+  })
 }

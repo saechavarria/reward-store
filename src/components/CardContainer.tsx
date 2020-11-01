@@ -10,11 +10,10 @@ import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import { Button } from "@material-ui/core";
 
 import { redeemProduct } from "../services/index";
-
+import { getUser } from "../services/index";
 import { ICardContainerProps } from "../services/interfaces";
 
-
-import { useToasts } from "react-toast-notifications";
+import swal from "sweetalert";
 
 import React, { useContext, useState } from "react";
 
@@ -39,29 +38,31 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CardContainer = (props: ICardContainerProps) => {
-
-  const { addToast } = useToasts()
-
   const classes = useStyles();
 
-  const user = useContext(AppContext);
-
+  const { user } = useContext(AppContext);
+  const { setUser } = useContext(AppContext);
   const [loadingRedeem, setLoadingRedeem] = useState(false);
 
   async function redeem(id: string) {
+    
     setLoadingRedeem(true);
     try {
       await redeemProduct(id);
-      addToast(`You've redeem the product ${props.product.name} successfully`, {
-        appearance: 'success',
-        autoDismiss: true,
-      })
+      const resUser = await getUser();
+      setUser(resUser);
+      swal(
+        "Good job!",
+        `You've redeemed the product ${props.product.name} successfully`,
+        "success"
+      );
       setLoadingRedeem(false);
     } catch (error) {
-      addToast("Error", {
-        appearance: 'error',
-        autoDismiss: true,
-      })
+      swal(
+        "Good job!",
+        `You've not redeemed the product ${props.product.name} successfully`,
+        "error"
+      );
       console.log(error);
     }
   }
@@ -89,15 +90,17 @@ const CardContainer = (props: ICardContainerProps) => {
               `You need ${props.product.cost - user.points}`
             ) : (
               <>
-                <Button
-                  onClick={() => redeem(props.product.id)}
-                  className={classes.btn}
-                  variant="contained"
-                  color="secondary"
-                  endIcon={<LoyaltyIcon />}
-                >
-                  {props.product.cost}
-                </Button>
+                {!loadingRedeem && (
+                  <Button
+                    onClick={() => redeem(props.product.id)}
+                    className={classes.btn}
+                    variant="contained"
+                    color="secondary"
+                    endIcon={<LoyaltyIcon />}
+                  >
+                    {props.product.cost}
+                  </Button>
+                )}
               </>
             )}
           </div>
