@@ -14,6 +14,15 @@ export interface IProducts {
   };
 }
 
+export interface IHistory {
+  productId:string;
+  name:string;
+  cost:number;
+  category:string;
+  _id:string;
+  createDate:string;
+}
+
 export interface ICardContainerProps {
   product: IProducts;
 }

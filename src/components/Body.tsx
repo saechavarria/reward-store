@@ -36,6 +36,7 @@ const Body = () => {
   const {user} = useContext(AppContext);
 
   const [data, setData] = useState<IProducts[]>([]);
+  
   const [page, setPage] = useState(1);
 
   const PER_PAGE = 10;

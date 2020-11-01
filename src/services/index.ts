@@ -1,19 +1,19 @@
 import { IUser } from "./interfaces";
 import { IProducts } from "./interfaces";
+import { IHistory } from "./interfaces";
 
 export function getUser(): Promise<IUser> {
   return new Promise(async (resolve, reject) => {
+    const endpoint = "https://coding-challenge-api.aerolab.co/user/me";
+
+    const requestInit: RequestInit = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+      },
+    };
     try {
-      const endpoint = "https://coding-challenge-api.aerolab.co/user/me";
-
-      const requestInit: RequestInit = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
-        },
-      };
-
       const res = await fetch(endpoint, requestInit);
       const jsonRes = await res.json();
 
@@ -30,16 +30,15 @@ export function getUser(): Promise<IUser> {
 
 export function getProduct(): Promise<IProducts[]> {
   return new Promise(async (resolve, reject) => {
+    const endpoint = "https://coding-challenge-api.aerolab.co/products";
+    const requestInit: RequestInit = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+      },
+    };
     try {
-      const endpoint = "https://coding-challenge-api.aerolab.co/products";
-      const requestInit: RequestInit = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
-        },
-      };
-
       const resProducto = await fetch(endpoint, requestInit);
       const jsonResProduct = await resProducto.json();
 
@@ -61,8 +60,50 @@ export function getProduct(): Promise<IProducts[]> {
   });
 }
 
+export function getHistory():Promise<IHistory[]> {
+  const endpoint = "https://coding-challenge-api.aerolab.co/user/history";
+  const requestInit: RequestInit = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+    },
+  };
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const resHistory = await fetch(endpoint, requestInit);
+      const jsonResHistory = await resHistory.json();
+
+      const historyResolve: IHistory[] = jsonResHistory.map(
+        (his: {
+          productId: any;
+          name: any;
+          cost: any;
+          category: any;
+          _id: any;
+          createDate: any;
+        }) => {
+          return {
+            productId: his.productId,
+            name: his.name,
+            cost: his.cost,
+            category: his.category,
+            _id: his._id,
+            createDate: his.createDate,
+          };
+        }
+      );
+
+      resolve(historyResolve);
+
+    } catch (error) {
+      reject(new Error(error));
+    }
+  });
+}
+
 export function redeemProduct(id: string) {
-  
   const obj = { productId: id };
   const blob = new Blob([JSON.stringify(obj, null, 2)], {
     type: "application/json",
@@ -92,8 +133,8 @@ export function redeemProduct(id: string) {
   });
 }
 
-export function addPoints(points:number){
-  const obj = {amount: points}
+export function addPoints(points: number) {
+  const obj = { amount: points };
   const blob = new Blob([JSON.stringify(obj, null, 2)], {
     type: "application/json",
   });
@@ -101,25 +142,23 @@ export function addPoints(points:number){
   const endpoint = "https://coding-challenge-api.aerolab.co/user/points";
 
   const requestInit: RequestInit = {
-    body:blob,
-    method:'POST',
+    body: blob,
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
     },
-  }
+  };
 
-  return new Promise(async (resolve,reject)=> {
+  return new Promise(async (resolve, reject) => {
     try {
-
-      const resPoints = await fetch(endpoint,requestInit);
-      const jsonResPoints = resPoints.json()
+      const resPoints = await fetch(endpoint, requestInit);
+      const jsonResPoints = resPoints.json();
 
       resolve(jsonResPoints);
-
     } catch (error) {
       reject(new Error(error));
     }
-  })
+  });
 }
