@@ -21,7 +21,7 @@ import Loading from "./Loading";
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
-    padding: 20,
+    padding: 25,
   },
 });
 

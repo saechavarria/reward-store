@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import RedeemHistory from "./RedeemHistory";
 import AppContext from "../AppContext";
 import AddPoints from "./AddPoints";
-
+import Tooltip from "@material-ui/core/Tooltip";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -24,32 +24,34 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const NavBar = () => {
-  const {user}  = useContext(AppContext);
+  const { user } = useContext(AppContext);
   const classes = useStyles();
-  
 
   return (
     <div className={classes.root}>
       <AppBar position="static" color="secondary">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <a
-              href="https://github.com/saechavarria/reward-store"
-              className={classes.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <GitHubIcon />
-            </a>
+            <Tooltip title="My Github">
+              <a
+                href="https://github.com/saechavarria/reward-store"
+                className={classes.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GitHubIcon />
+              </a>
+            </Tooltip>
           </Typography>
-          {user &&  <RedeemHistory />}
+          {user && <RedeemHistory />}
           <Typography variant="h6">
-            {user ? user.name.toUpperCase() +
+            {user
+              ? user.name.toUpperCase() +
                 ", POINTS: " +
                 new Intl.NumberFormat().format(user.points)
               : "LOADING..."}
           </Typography>
-          {user && <AddPoints/> }
+          {user && <AddPoints />}
         </Toolbar>
       </AppBar>
     </div>

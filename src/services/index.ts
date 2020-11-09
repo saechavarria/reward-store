@@ -10,8 +10,8 @@ export function getUser(): Promise<IUser> {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
-      },
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE4ODkwOGI5NTIzZTAwMjA3ZTFmYzAiLCJpYXQiOjE2MDQ4ODA2NDh9.Wtn96Dvpl8LhRWE9EsUW8gHYJvSMIRkCLuWsSpZLQ0c",
+        },
     };
     try {
       const res = await fetch(endpoint, requestInit);
@@ -35,7 +35,7 @@ export function getProduct(): Promise<IProducts[]> {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE4ODkwOGI5NTIzZTAwMjA3ZTFmYzAiLCJpYXQiOjE2MDQ4ODA2NDh9.Wtn96Dvpl8LhRWE9EsUW8gHYJvSMIRkCLuWsSpZLQ0c",
       },
     };
     try {
@@ -66,7 +66,7 @@ export function getHistory():Promise<IHistory[]> {
     headers: {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE4ODkwOGI5NTIzZTAwMjA3ZTFmYzAiLCJpYXQiOjE2MDQ4ODA2NDh9.Wtn96Dvpl8LhRWE9EsUW8gHYJvSMIRkCLuWsSpZLQ0c",
     },
   };
 
@@ -117,7 +117,7 @@ export function redeemProduct(id: string) {
     headers: {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE4ODkwOGI5NTIzZTAwMjA3ZTFmYzAiLCJpYXQiOjE2MDQ4ODA2NDh9.Wtn96Dvpl8LhRWE9EsUW8gHYJvSMIRkCLuWsSpZLQ0c",
     },
   };
 
@@ -147,7 +147,7 @@ export function addPoints(points: number) {
     headers: {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRkOWU5OTQ0NGZlNDAwNmRhOTkyNGQiLCJpYXQiOjE1OTE1ODIzNjF9.-f40dyUIGFsBSB_PTeBGdSLI58I21-QBJNi9wkODcKk",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE4ODkwOGI5NTIzZTAwMjA3ZTFmYzAiLCJpYXQiOjE2MDQ4ODA2NDh9.Wtn96Dvpl8LhRWE9EsUW8gHYJvSMIRkCLuWsSpZLQ0c",
     },
   };
 

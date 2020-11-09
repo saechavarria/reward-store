@@ -7,7 +7,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
-import { Button } from "@material-ui/core";
+import { Button, Tooltip } from "@material-ui/core";
 
 import { redeemProduct } from "../services/index";
 import { getUser } from "../services/index";
@@ -45,7 +45,6 @@ const CardContainer = (props: ICardContainerProps) => {
   const [loadingRedeem, setLoadingRedeem] = useState(false);
 
   async function redeem(id: string) {
-    
     setLoadingRedeem(true);
     try {
       await redeemProduct(id);
@@ -87,19 +86,23 @@ const CardContainer = (props: ICardContainerProps) => {
           </Typography>
           <div className={classes.redeemButton}>
             {user.points < props.product.cost ? (
-              `You need ${props.product.cost - user.points}`
+              <Typography variant="body2" color="textPrimary" component="p">
+                You need {props.product.cost - user.points} points
+              </Typography>
             ) : (
               <>
                 {!loadingRedeem && (
-                  <Button
-                    onClick={() => redeem(props.product.id)}
-                    className={classes.btn}
-                    variant="contained"
-                    color="secondary"
-                    endIcon={<LoyaltyIcon />}
-                  >
-                    {props.product.cost}
-                  </Button>
+                  <Tooltip title="Redeem">
+                    <Button
+                      onClick={() => redeem(props.product.id)}
+                      className={classes.btn}
+                      variant="contained"
+                      color="secondary"
+                      endIcon={<LoyaltyIcon />}
+                    >
+                      {props.product.cost}
+                    </Button>
+                  </Tooltip>
                 )}
               </>
             )}

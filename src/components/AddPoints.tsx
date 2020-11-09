@@ -7,6 +7,8 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { addPoints, getUser } from "../services/index";
 import AppContext from "../AppContext";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Tooltip from '@material-ui/core/Tooltip';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     btn: {
@@ -54,14 +56,16 @@ const AddPoints = () => {
   }
   return (
     <>
-      <IconButton
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        className={classes.btn}
-      >
-        <AddCircleIcon />
-      </IconButton>
+      <Tooltip title="Add Points">
+        <IconButton
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+          className={classes.btn}
+        >
+          <AddCircleIcon />
+        </IconButton>
+      </Tooltip>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
